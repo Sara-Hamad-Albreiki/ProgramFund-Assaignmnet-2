@@ -1,0 +1,75 @@
+class Ticket:
+    def __init__(self, ticket_id, price):
+        self.ticket_id = ticket_id
+        self.price = price
+
+    def get_ticket_info(self):
+        return f"Ticket ID: {self.ticket_id}, Price: {self.price} AED"
+
+
+class Visitor:
+    def __init__(self, visitor_id, name):
+        self.visitor_id = visitor_id
+        self.name = name
+        self.tickets = []
+
+    def buy_ticket(self, ticket):
+        self.tickets.append(ticket)
+
+    def get_tickets(self):
+        return self.tickets
+
+
+class TourGroup:
+    def __init__(self, tour_group_id, name):
+        self.tour_group_id = tour_group_id
+        self.name = name
+        self.visitors = []
+
+    def add_visitor(self, visitor):
+        self.visitors.append(visitor)
+
+    def buy_ticket(self, ticket):
+        for visitor in self.visitors:
+            visitor.buy_ticket(ticket)
+
+
+class Event:
+    def __init__(self, event_id, name, location, duration, ticket_price):
+        self.event_id = event_id
+        self.name = name
+        self.location = location
+        self.duration = duration
+        self.ticket_price = ticket_price
+
+    def get_event_info(self):
+        return f"Event ID: {self.event_id}, Name: {self.name}, Location: {self.location}, Duration: {self.duration}, Ticket Price: {self.ticket_price} AED"
+
+
+# Create an event
+event = Event(1, "Test Event", "Test Location", "1 day", 50)
+
+# Create a ticket
+ticket = Ticket(1, 50)
+
+# Create a visitor
+visitor = Visitor(1, "Test Visitor")
+
+# Create a tour group
+tour_group = TourGroup(1, "Test Tour Group")
+
+# Add visitor to the tour group
+tour_group.add_visitor(visitor)
+
+# Test purchasing ticket by an individual
+visitor.buy_ticket(ticket)
+
+# Test purchasing tickets by a tour group
+tour_group.buy_ticket(ticket)
+
+# Display the visitor's tickets
+print(visitor.get_tickets())
+
+# Display the tour group's tickets
+for visitor in tour_group.visitors:
+    print(visitor.get_tickets())
