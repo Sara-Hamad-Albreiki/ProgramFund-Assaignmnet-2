@@ -1,0 +1,309 @@
+class Artwork:
+    def __init__(self, artwork_ID, artwork_title, artwork_artist, artwork_date_of_creation, historical_significance, exhibition_location):
+        self.artwork_ID = artwork_ID
+        self.artwork_title = artwork_title
+        self.artwork_artist = artwork_artist
+        self.artwork_date_of_creation = artwork_date_of_creation
+        self.historical_significance = historical_significance
+        self.exhibition_location = exhibition_location
+
+    def update_location(self, new_location):
+        # Update the exhibition location of the artwork
+        self.exhibition_location= exhibition_location
+
+    def get_artwork_ID(self):
+        return self._artwork_ID
+
+    def get_artwork_title(self):
+        return self._artwork_title
+
+    def get_artwork_artist(self):
+        return self._artwork_artist
+
+    def get_artwork_date_of_creation(self):
+        return self._artwork_date_of_creation
+
+    def get_historical_significance(self):
+        return self._historical_significance
+
+    def get_exhibition_location(self):
+        return self._exhibition_location
+
+    def set_artwork_ID(self):
+        self._artwork_ID = artwork_ID
+
+    def set_artwork_title(self):
+        self._artwork_title = artwork_title
+
+    def set_artwork_artist(self):
+        self._artwork_artist = artwork_artist
+
+    def set_artwork_date_of_creation(self):
+        self._artwork_date_of_creation = artwork_date_of_creation
+
+    def set_historical_significance(self):
+        self._historical_significance = historical_significance
+
+
+    def get_artwork_info(self): # Retrieve detailed information about the artwork
+        return (
+            f"Artwork ID: {self.artwork_ID}"
+            f"Title: {self.title}"
+            f"Artist: {self.artist}"
+            f"Date of Creation: {self.date_of_creation}"
+            f"Historical Significance: {self.historical_significance}"
+            f"Location: {self.location}"
+        )
+
+
+    def set_exhibition_location(self, location):
+        self._exhibition_location = location
+
+class Exhibition:
+    def __init__(self, exhibition_id, name, duration, location):
+        self.exhibition_id = exhibition_id
+        self.exhibition_name = exhibition_name
+        self.exhibition_duration = exhibition_duration
+        self.exhibition_location = exhibition_location
+        self.artworks = []  # Association relationship with Artwork
+
+
+    def get_exhibition_id(self):
+        return self._exhibition_id
+
+    def get_exhibition_name(self):
+        return self._exhibition_name
+
+    def get_exhibition_duration(self):
+        return self._exhibition_duration
+
+    def set_exhibition_id(self):
+        self._exhibition_id= exhibition_id
+
+    def set_exhibition_name(self):
+        self._exhibition_name = exhibition_name
+
+    def set_exhibition_duration(self):
+        self._exhibition_duration= exhibition_duration
+
+    def add_artwork(self, artwork):
+        self._artworks.append(artwork)  # Add artwork to the exhibition
+
+    def get_exhibition_details(self):# gathering details on the exhibition.
+        return (
+            f"Exhibition ID: {self.exhibition_id}\n"
+            f"Name: {self.name}"
+            f"Duration: {self.duration}"
+            f"Location: {self.location}"
+            f"Artworks: {len(self.artworks)}"
+        )
+
+
+    def get_total_duration(self):
+    # Calculate the total duration by summing up the duration of all artworks
+       total_duration = sum(artwork.exhibition_duration
+                            for artwork in self.artworks)
+       return total_duration
+class Visitor:
+    def __init__(self, visitor_ID, visitor_name, visitor_age, visitor_national):
+        self.visitor_ID= visitor_ID
+        self.visitor_name = visitor_name
+        self.visitor_age = visitor_age
+        self.visitor_nationality = visitor_nationality
+        self.tickets = []  # List to store purchased tickets (here is composition relationship)
+
+    def get_visitor_ID(self):
+        return self.visitor_ID
+
+    def get_visitor_name(self):
+        return self.visitor_name
+
+    def get_visitor_age(self):
+        return self.visitor_age
+
+    def set_visitor_nationality(self):
+        return self.visitor_nationality
+
+    def set_visitor_ID(self):
+        self.visitor_ID = visitor_ID
+
+    def set_visitor_name(self):
+        self.visitor_name= visitor_name
+
+    def set_visitor_age(self):
+        self.visitor_age = visitor_age
+
+    def get_visitor_nationality(self):
+        self.visitor_nationality = visitor_nationality
+
+
+    def purchase_ticket(self, ticket):#Allows visitors to purchase tickets for exhibitions, tours, and special events.
+        #param ticket: Ticket object representing the purchased ticket
+        self.tickets.append(ticket)  # Add purchased ticket to visitor's list
+
+    def register_tour(self, tour):#Registers the visitor for a guided tour.
+        #param tour: Tour object representing the scheduled tour :return: True if registration is successful, False if the tour is already full
+
+        if len(tour.visitors) < tour.max_capacity:
+            tour.visitors.append(self)
+            return True
+        else:
+            return False
+
+class Ticket:
+    def __init__(self, ticket_ID, ticket_type, ticket_price):
+        self.ticket_ID = ticket_ID
+        self.ticket_type = ticket_type
+        self.ticket_price = ticket_price
+
+    def get_ticket_info(self):
+        return f"Ticket ID: {self.ticket_id}, Ticket Type: {self.ticket_type}, Price: {self.price} AED"
+
+    def get_ticket_ID(self):
+        return self.ticket_ID
+
+    def get_ticket_type(self):
+        return self.ticket_type
+
+    def get_ticket_price(self):
+        return self.ticket_price
+
+    def set_ticket_ID(self,ticket_ID):
+        self.ticket_ID = ticket_ID
+
+    def set_ticket_type(self, ticket_type):
+        self.ticket_type = ticket_type
+
+    def set_ticket_price(self, ticket_price):
+        self.ticket_price = ticket_price
+
+    def get_exhibition_location(self):
+        return self.exhibition_location
+
+    def set_exhibition_location(self, location):
+        self.exhibition_location = location
+
+    def final_price_calculation(self, visitor_category, visitor_age=None):#Calculates the final ticket price based on visitor category.
+        base_price = self.ticket_price
+        vat_rate = 0.05  # 5% value-added-tax (VAT)
+
+        if visitor_category == 'adult' and 18 <= visitor_age <= 60:
+            final_price = base_price
+        elif visitor_category == ('child', 'teacher', 'senior'): # Free ticket for children, teachers, and seniors
+            final_price = 0
+        elif visitor_category == 'group': # 50% discount for groups
+            final_price = 0.5 * base_price
+        elif visitor_category == 'special_event':
+            # Individual ticket prices for special events, You can customize this logic based on specific event IDs or names
+            # For now, let's assume a fixed special event price
+            final_price = 100  # Example special event price
+        else:
+            raise ValueError(f"Invalid visitor category: {visitor_category}")
+
+        # Apply VAT
+        final_price *= (1 + vat_rate)
+
+        return final_price
+
+class Group(visitor): #inheitance relationship
+    def __init__(self, group_ID, group_name, leader_name):
+        super().__init__(group_ID, group_name, None, None)  # Inherit from Visitor
+        self.group_ID = group_ID
+        self.group_name = group_name
+        self.visitors= []  # List to store group members (visitors)
+
+    def add_member(self, member):
+        self.visitors.append(member)  # Add member to the group
+
+    def get_group_ID(self):
+        return self.group_ID
+
+    def get_group_name(self):
+        return self.group_name
+
+    def set_group_ID(self, group_ID):
+        self.group_ID = group_ID
+
+    def set_group_name(self, group_name):
+        self.group_name = group_name
+
+
+class Tour:
+    def __init__(self, tour_ID, guide_name, date, max_capacity):
+        self.tour_ID = tour_ID
+        self.guide_name = guide_name
+        self.date = date
+        self.max_capacity = max_capacity
+        self.visitors = []  #associated events (association relationship)
+
+    def get_tour_ID(self):
+        return self.tour_ID
+
+    def get_guide_name(self):
+        return self.guide
+
+    def get_date(self):
+        return self.date
+
+    def get_max_capacity(self):
+        return self.max_capacity
+    def set_tour_ID(self,tour_ID):
+        self.tour_ID = tour_ID
+
+    def set_guide_name(self,guide_name):
+        self.guide_name= guide_name
+
+    def set_tour_date(self, tour_date):
+        self.tour_date = tour_date
+
+    def set_max_capacity(self, max_capacity):
+        self.max_capacity = max_capacity
+
+    def add_visitor(self, visitor):
+        if len(self.visitors) < self.max_capacity:
+            self.visitors.append(visitor)
+            return True
+        else:
+            return False
+
+class Event:
+    def __init__(self, event_ID, event_name, location, duration, ticket_price):
+        self.event_ID = event_ID
+        self.event_name = event_name
+        self.location = location
+        self.duration = duration
+        self.ticket_price = ticket_price
+
+    def get_event_info(self):
+        return f"Event ID: {self.event_id}, Name: {self.event_name}, Location: {self.location}, " \
+               f"Duration: {self.duration}, Ticket Price: {self.ticket_price} AED"
+
+    def get_event_id(self):
+        return self.event_id
+
+    def get_event_name(self):
+        return self.name
+
+    def get_event_duration(self):
+        return self.event_duration
+
+    def set_event_ID(self,event_ID):
+        self.event_ID= event_ID
+
+    def set_event_name(self,event_name):
+        self.event_name= event_name
+
+    def set_event_duration(self,event_duration):
+        self.event_duration= event_duration
+
+
+
+
+# Create an artwork
+starry_night = Artwork(2, "Starry Night", "Vincent van Gogh", "1889", "Expressionist masterpiece", "permanent galleries")
+
+# Create an exhibition
+impressionist_exhibition = Exhibition(2, "Impressionist Masterpieces", "6 months", "special exhibition hall")
+
+# Add the artwork to the exhibition
+impressionist_exhibition.add_artwork(starry_night)
