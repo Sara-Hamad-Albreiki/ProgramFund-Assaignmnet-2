@@ -1,1 +1,2 @@
-
+new_exhibition = Exhibition(3, "New Exhibition", "3 months", "special exhibition hall")
+assert new_exhibition.get_exhibition_details() == "Exhibition ID: 3\nName: New Exhibition\nDuration: 3 months\nLocation: special exhibition hall\nArtworks: 0"
