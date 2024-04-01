@@ -1,0 +1,2 @@
+new_artwork = Artwork(3, "New Painting", "New Artist", "2022", "Newly added painting", "permanent galleries")
+assert new_artwork.get_artwork_info() == "Artwork ID: 3\nTitle: New Painting\nArtist: New Artist\nDate of Creation: 2022\nHistorical Significance: Newly added painting\nLocation: permanent galleries"
